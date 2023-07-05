@@ -8,16 +8,30 @@
     "start:dev": "nodemon src/index.ts",
     "start:prod": "node dist/index.js",
     "lint": "npx eslint ./src",
-    "lint-fix": "npx eslint ./src --fix"
+    "lint-fix": "npx eslint ./src --fix",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run lint",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run precommit"
+    }
   },
   "author": "Vadzim Velikanets",
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.16",
     "@types/node": "^18.11.18",
-    "@typescript-eslint/eslint-plugin": "^5.49.0",
-    "@typescript-eslint/parser": "^5.49.0",
-    "eslint": "^8.32.0",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "eslint": "^8.44.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.3",
     "rimraf": "^4.1.2",
