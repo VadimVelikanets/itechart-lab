@@ -1,5 +1,6 @@
 import User from "../models/User";
 import Role from '../models/Role';
+import { EAuth } from "./constants";
 import bcrypt from 'bcryptjs';
 import {validationResult} from "express-validator";
 import jwt from "jsonwebtoken";
@@ -19,12 +20,12 @@ class authController {
         try {
             const errors = validationResult(req);
             if(!errors.isEmpty()) {
-                return res.status(400).json({message: "Registration error", errors});
+                return res.status(400).json({message: EAuth.REGISTRATION_ERROR, errors});
             }
             const {username, password, email} = req.body;
             const candidate = await User.findOne({username}) || await User.findOne({email});
             if(candidate) {
-                return res.status(400).json({message: "User already exists"})
+                return res.status(400).json({message: EAuth.USER_EXIST})
             }
             const hashPassword = bcrypt.hashSync(password, 7);
             const userRole = await Role.findOne({value: "USER"});
@@ -35,11 +36,11 @@ class authController {
                 role: userRole.value
             })
             await user.save()
-            return res.json({message: "User created!"})
+            return res.json({message: EAuth.USER_CREATED})
 
         } catch (e) {
             console.log(e)
-            res.status(400).json({message: "Registration Error"})
+            res.status(400).json({message: EAuth.REGISTRATION_ERROR})
         }
     }
     async login(req, res) {
@@ -47,24 +48,24 @@ class authController {
             const {email, password} = req.body;
             const user = await User.findOne({email: email});
             if(!user) {
-                return res.status(400).json({message: `User does not exist!`})
+                return res.status(400).json({message: EAuth.USER_NOT_EXIST})
             }
             const validPassword = bcrypt.compareSync(password, user.password);
             if(!validPassword){
-                return res.status(400).json({message: "Incorrected password!"})
+                return res.status(400).json({message: EAuth.WRONG_PASSWORD})
             }
             const token = generateAccessToken(user._id, user.roles);
             return res.json({token})
         } catch (e) {
             console.log(e)
-            res.status(400).json({message: "Login Error"})
+            res.status(400).json({message: EAuth.LOGIN_ERROR})
         }
     }
     async authorization(req, res) {
         try {
             const user = await User.findOne({_id: req.user.id});
             if(!user) {
-                return res.status(400).json({message: `User does not exist!`})
+                return res.status(400).json({message: EAuth.USER_NOT_EXIST})
             }
             const token = jwt.sign({id: user.id}, process.env.SECRET_KEY, {expiresIn: "1h"});
             return res.json( {id: user.id,
@@ -74,7 +75,7 @@ class authController {
                 })
         } catch (e) {
             console.log(e)
-            res.status(400).json({message: "Auth Error"})
+            res.status(400).json({message: EAuth.AUTH_ERROR})
         }
     }
 }
