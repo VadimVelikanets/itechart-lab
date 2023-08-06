@@ -1,10 +1,12 @@
 import { Schema, model } from 'mongoose';
 
+import { EUserRole } from '../constants';
+
 const Role = new Schema({
   value: {
     type: String,
     unique: true,
-    default: 'USER',
+    default: EUserRole.ADMIN,
   },
 });
 

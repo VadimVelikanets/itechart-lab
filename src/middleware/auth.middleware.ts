@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import * as process from 'process';
 
+import { EAuth } from '../auth/constants';
 import logger from '../logger';
 
 function authMiddleware(req, res, next) {
@@ -17,7 +18,7 @@ function authMiddleware(req, res, next) {
     logger.info(decoded);
     return next();
   } catch (e) {
-    return res.status(401).json({ message: 'Auth message' });
+    return res.status(401).json({ message: EAuth.AUTH_MESSAGE });
   }
 }
 
