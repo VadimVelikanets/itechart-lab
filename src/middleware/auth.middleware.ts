@@ -18,7 +18,7 @@ function authMiddleware(req, res, next) {
     logger.info(decoded);
     return next();
   } catch (e) {
-    return res.status(401).json({ message: EAuth.AUTH_MESSAGE });
+    return res.status(401).json({ message: EAuth.AUTH_ERROR });
   }
 }
 

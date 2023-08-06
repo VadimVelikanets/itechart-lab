@@ -5,6 +5,5 @@ export enum EAuth {
   USER_NOT_EXIST = 'User does not exist!',
   LOGIN_ERROR = 'Login Error',
   AUTH_ERROR = 'Auth Error',
-  AUTH_MESSAGE = 'Auth message',
   WRONG_PASSWORD = 'Incorrected password!',
 }
