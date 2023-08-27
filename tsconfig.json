@@ -4,8 +4,8 @@
     "rootDir": "./src",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "target": "es6",
-    "strict": false,
+    "target": "es2017", // Changed from "es6" to "es2017"
+    "strict": true, // Recommended to set strict mode to true
     "noImplicitAny": false,
     "moduleResolution": "node",
     "sourceMap": true,
@@ -14,7 +14,7 @@
     "paths": {
       "*": ["node_modules/*"]
     },
-    "removeComments": true,
+    "removeComments": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
