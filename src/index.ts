@@ -6,15 +6,18 @@ import app from './app';
 import corsMiddleware from './middleware/cors.middleware';
 import authRouter from './auth/auth.router';
 import pollRouter from './poll/poll.router';
+import resultRouter from './result/result.router';
 import logger from './logger';
 
 dotenv.config();
 mongoose.set('strictQuery', false);
 
 const PORT = process.env.PORT || 8080;
+
 app.use(corsMiddleware);
 app.use('/auth', authRouter);
 app.use('/poll', pollRouter);
+app.use('/result', resultRouter);
 
 const start = async () => {
   try {
