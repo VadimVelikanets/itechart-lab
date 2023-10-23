@@ -36,7 +36,7 @@ class authController {
         username,
         email,
         password: hashPassword,
-        roles: [userRole?.value],
+        role: userRole?.value,
       });
       await user.save();
       return res.json({ message: EAuth.USER_CREATED });
